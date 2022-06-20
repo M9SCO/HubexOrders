@@ -1,14 +1,9 @@
-from typing import Union
-from fastapi import FastAPI
+from gspread_asyncio import AsyncioGspreadClientManager
 
-app = FastAPI()
+from modules.Google.src.google_src import set_value, get_creds
 
+from asyncio import run
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+agcm = AsyncioGspreadClientManager(get_creds)
+run(set_value("K1", "Перемен для ", agcm))
 
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
