@@ -22,3 +22,12 @@ async def set_value(agcm, coords, value, sheet=environ["SHEET"]):
     zero_ws: Worksheet = await ss.get_worksheet(0)
     cell: Cell = Cell.from_address(coords)
     return await zero_ws.update_cell(cell.row, cell.col, value)
+
+
+async def get_value(agcm, coords, sheet=environ["SHEET"]):
+    print(coords)
+    agc = await agcm.authorize()
+
+    ss = await agc.open_by_key(sheet)
+    zero_ws: Worksheet = await ss.get_worksheet(0)
+    return await zero_ws.get_values(coords)
