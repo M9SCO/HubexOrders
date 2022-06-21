@@ -1,17 +1,17 @@
-#POST localhost:752/api/google
-#Content-Type: application/json
-#
-#{
-#  "coords": "K1",
-#  "value": "Hello"
-#}
-####
-#GET http://localhost:752/api/google
-#Content-Type: application/json
-#
-#{
-#  "coords": "A1:J1"
-#}
+POST localhost:752/api/google
+Content-Type: application/json
+
+{
+  "coords": "K3",
+  "value": "Hello"
+}
+###
+GET http://localhost:752/api/google
+Content-Type: application/json
+
+{
+  "coords": "J1:J10"
+}
 ###
 PUT http://localhost:752/api/google
 Content-Type: application/json

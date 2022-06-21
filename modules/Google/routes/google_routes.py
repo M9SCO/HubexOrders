@@ -11,12 +11,12 @@ from modules.core.app import app
 @app.post("/api/google")
 async def api_set_value(request: GoogleRequestSetValue):
     agcm = AsyncioGspreadClientManager(get_creds)
-    return await set_value(agcm=agcm, coords=request.coords, value=request.value)
+    return await set_value(agcm=agcm, r=request)
 
 @app.get("/api/google")
 async def api_get_value(request: GoogleRequestGetValue):
     agcm = AsyncioGspreadClientManager(get_creds)
-    return await get_value(agcm=agcm, coords=request.coords)
+    return await get_value(agcm=agcm, r=request)
 
 @app.put("/api/google")
 async def api_put_values(request: GoogleRequestPutValues):
