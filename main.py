@@ -1,12 +1,13 @@
-from gspread_asyncio import AsyncioGspreadClientManager
+from logging import INFO, basicConfig, info
 
-from modules.Google.routes.google_routes import api_set_value
 from modules.core.app import app
+from modules.Google.routes.google_routes import *
+basicConfig(format='%(levelname)-10s%(message)s  ', level=INFO, )
+
 
 
 @app.get("/")
 def main_message():
     return {"message": "Hello World"}
 
-
-print(str(app), "is running!")
+info("app is running!")
