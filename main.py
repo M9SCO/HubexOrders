@@ -1,16 +1,12 @@
-from typing import Union
-from fastapi import FastAPI
+from gspread_asyncio import AsyncioGspreadClientManager
 
-app = FastAPI()
+from modules.Google.routes.google_routes import api_set_value
+from modules.core.app import app
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def main_message():
+    return {"message": "Hello World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
+print(str(app), "is running!")
