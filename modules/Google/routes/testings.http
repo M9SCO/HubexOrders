@@ -1,17 +1,17 @@
-POST localhost:752/api/google
-Content-Type: application/json
-
-{
-  "coords": "K1",
-  "value": "HelloWorld"
-}
-###
-GET http://localhost:752/api/google
-Content-Type: application/json
-
-{
-  "coords": "A1:J1"
-}
+#POST localhost:752/api/google
+#Content-Type: application/json
+#
+#{
+#  "coords": "K1",
+#  "value": "Hello"
+#}
+####
+#GET http://localhost:752/api/google
+#Content-Type: application/json
+#
+#{
+#  "coords": "A1:J1"
+#}
 ###
 PUT http://localhost:752/api/google
 Content-Type: application/json
@@ -25,6 +25,6 @@ Content-Type: application/json
   "object_number_tech": "б/н",
   "object_number_factory": "-",
   "object_number_registration": "-",
-  "castomer_name": "НБ 1, ТН Порт Приморск",
+  "customer_name": "НБ 1, ТН Порт Приморск"
 }
 ###
