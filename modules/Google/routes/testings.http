@@ -1,0 +1,8 @@
+POST localhost:752/api/google
+Content-Type: application/json
+
+{
+  "coords": "K1",
+  "value": "HelloWorld"
+}
+
