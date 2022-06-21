@@ -1,9 +1,12 @@
 from gspread_asyncio import AsyncioGspreadClientManager
 
-from modules.Google.src.google_src import set_value, get_creds
+from modules.Google.routes.google_routes import api_set_value
+from modules.core.app import app
 
-from asyncio import run
 
-agcm = AsyncioGspreadClientManager(get_creds)
-run(set_value("K1", "Перемен для ", agcm))
+@app.get("/")
+def main_message():
+    return {"message": "Hello World"}
 
+
+print(str(app), "is running!")
