@@ -1,7 +1,8 @@
-POST 192.168.0.103:752/api/google
+POST localhost:752/api/google
 Content-Type: application/json
 
 {
   "coords": "K1",
   "value": "HelloWorld"
 }
+
