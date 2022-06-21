@@ -15,7 +15,6 @@ def get_creds():
 
 
 async def set_value(agcm, coords, value, sheet=environ["SHEET"]):
-    print(coords, value)
     agc = await agcm.authorize()
 
     ss = await agc.open_by_key(sheet)
@@ -25,7 +24,6 @@ async def set_value(agcm, coords, value, sheet=environ["SHEET"]):
 
 
 async def get_value(agcm, coords, sheet=environ["SHEET"]):
-    print(coords)
     agc = await agcm.authorize()
 
     ss = await agc.open_by_key(sheet)
