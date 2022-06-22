@@ -3,6 +3,7 @@ from os import environ
 from google.oauth2.service_account import Credentials
 from gspread import Worksheet, Cell
 
+from modules.Google.modules.GoogleRequestPutValues import GoogleRequestPutValues
 from modules.core.logger import logging_info, logging_info_async
 
 
@@ -32,11 +33,22 @@ async def get_value(agcm, r, sheet=environ["SHEET"]):
     return await zero_ws.get_values(r.coords)
 
 
-async def put_values(agcm, r, sheet=environ["SHEET"]):
+async def put_values(agcm, r:GoogleRequestPutValues, sheet=environ["SHEET"]):
     agc = await agcm.authorize()
     ss = await agc.open_by_key(sheet)
     zero_ws: Worksheet = await ss.get_worksheet(0)
-    count = len(await zero_ws.col_values(3))
-    return await zero_ws.append_row([count, r.pf_number, r.object_name, r.tech_object_number,
-                                     r.factory_object_number, r.registration_object_number,
-                                     r.location, r.customer_name, r.date_registration, r.full_name])
+    table = await zero_ws.get_all_values()
+    comparison = {
+        '№ п/п': len(table),
+        'Номер ПФ': r.pf_number,
+        'Наименование объекта': r.object_name,
+        'Технологический номер объекта': r.tech_object_number,
+        'Заводской номер объекта': r.factory_object_number,
+        'Регистрационный номер объекта': r.registration_object_number,
+        'Расположение объекта': r.location,
+        'Наименование Заказчика\n* выбор из списка': r.customer_name,
+        'Дата регистрации документа': r.date_registration,
+        'ФИО регистратора\n* выбор из списка': r.full_name,
+    }
+
+    return await zero_ws.insert_rows([[comparison.get(cell, "") for cell in table[0]]], len(table)+1)
