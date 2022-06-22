@@ -17,14 +17,14 @@ PUT http://localhost:752/api/google
 Content-Type: application/json
 
 {
-  "prefix": "ДОК",
-  "date_registration": "18.03.2022",
-  "document_id": "ДОК-00001/ГГ",
-  "date_control": "18.03.2022",
-  "name_object0": "Котел",
-  "object_number_tech": "б/н",
-  "object_number_factory": "-",
-  "object_number_registration": "-",
-  "customer_name": "НБ 1, ТН Порт Приморск"
+   "pf_number": "ПФ-86.0317/22",
+    "object_name": "Подземный газопровод",
+    "tech_object_number": "б/н",
+    "factory_object_number": "б/н",
+    "registration_object_number": "б/н",
+    "location": "г.Обнинск., Московская 33/10",
+    "customer_name": "АО «Газпром газораспределение Обнинск» от 12.04.2022г.",
+    "date_registration": "05.05.2022",
+    "full_name": "Дортман Е."
 }
 ###
