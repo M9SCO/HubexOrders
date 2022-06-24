@@ -1,3 +1,2 @@
 from fastapi import FastAPI
-
-app = FastAPI()
+app = FastAPI(openapi_url=None, docs_url=None)
