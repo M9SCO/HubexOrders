@@ -4,8 +4,6 @@ from os import environ
 
 from requests import get, post
 from modules.Google.routes.google_routes import *
-from requests.structures import CaseInsensitiveDict
-
 basicConfig(format='%(levelname)-10s%(message)s  ', level=INFO, )
 
 
@@ -22,13 +20,15 @@ def main_message():
     tenant = dict['tenantMember']
     tenant_member_id = tenant['id']
     body = {
-        "tenantID": tenant_id,
-        "tenantMemberID": tenant_member_id
+        'content-type': 'application/json',
+        'tenantID': tenant_id,
+        'tenantMemberID':tenant_member_id
     }
     header = {
-        'Authorization': 'Basic '+access_token,
+        'content-type':'application/json',
+        'authorization': 'Bearer '+access_token,
+        'X-Application-ID': '3'
     }
-    t = post(url="https://api.hubex.ru/fsm/AUTHZ/Accounts/authorize", headers=header, data=body)
-    #r = get("https://api.hubex.ru/fsm/WORK/Tasks/1277")
-    print(t.__dict__)
-info("app is running!")
+    req1 = post(url="https://api.hubex.ru/fsm/AUTHZ/Accounts/authorize", headers=header, data=body)
+    req2 = get(url="https://api.hubex.ru/fsm/WORK/Tasks/1277", headers=header)
+    print(req2.json())
