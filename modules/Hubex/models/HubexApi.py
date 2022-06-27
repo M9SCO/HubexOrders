@@ -10,6 +10,11 @@ class HubexApi:
     def __init__(self,
                  token=environ["TOKEN"].replace("\"", ""),
                  access_token=environ.get("AUTHED_TOKEN", "").replace("\"", "")):
+        """
+        :param token: Get it in Admin Panel
+        :param access_token:  Get it in self._get_access_token()
+        """
+
         self.token = token
         self.authed_token = access_token
 
