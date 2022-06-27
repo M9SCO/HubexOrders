@@ -28,3 +28,20 @@ Content-Type: application/json
     "full_name": "Дортман Е."
 }
 ###
+
+POST http://localhost:752/newTask
+Content-Type: application/json
+
+{
+  "TenantID": 46,
+  "TaskID": 1314,
+  "AssetID": 2692,
+  "TaskConversationID": "",
+  "TenantMemberID": "",
+  "AccountID": "",
+  "UserID": "",
+  "CompanyID": "",
+  "EventID": 3,
+  "TaskStageID": ""
+}
+####

@@ -34,16 +34,14 @@ class HubexApi:
         header = {
             'content-type': 'application/json',
             'authorization': 'Bearer ' + self.authed_token,
-            'X-Application-ID': '1'
+            'X-Application-ID': '3'
         }
 
         async with ClientSession() as s, s.request(url=url, method=method, json=kwargs, headers=header) as r:
             return await r.json()
 
-    async def get_task(self, task_id: int):
+    async def get_task(self, task_id: str):
         return await self._call_api(
-            url= f"{self.__URL__}WORK/tasks/{task_id}",
+            url=f"{self.__URL__}WORK/tasks/{task_id}",
             method="GET",
         )
-
-

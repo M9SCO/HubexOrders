@@ -32,7 +32,7 @@ async def get_value(agcm, r, sheet=environ["SHEET"]):
     zero_ws: Worksheet = await ss.get_worksheet(0)
     return await zero_ws.get_values(r.coords)
 
-
+@logging_info_async
 async def put_values(agcm, r:GoogleRequestPutValues, sheet=environ["SHEET"]):
     agc = await agcm.authorize()
     ss = await agc.open_by_key(sheet)
@@ -50,5 +50,4 @@ async def put_values(agcm, r:GoogleRequestPutValues, sheet=environ["SHEET"]):
         'Дата регистрации документа': r.date_registration,
         'ФИО регистратора\n* выбор из списка': r.full_name,
     }
-
     return await zero_ws.insert_rows([[comparison.get(cell, "") for cell in table[0]]], len(table)+1)
