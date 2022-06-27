@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class GoogleRequestPutValues(BaseModel):
+class GoogleLogRegistrationPF(BaseModel):
     pf_number: str
     object_name: str
     tech_object_number: str

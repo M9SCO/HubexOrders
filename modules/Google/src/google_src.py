@@ -3,7 +3,7 @@ from os import environ
 from google.oauth2.service_account import Credentials
 from gspread import Worksheet, Cell
 
-from modules.Google.modules.GoogleRequestPutValues import GoogleRequestPutValues
+from modules.Google.modules.GoogleLogRegistrationPF import GoogleLogRegistrationPF
 from modules.core.logger import logging_info, logging_info_async
 
 
@@ -15,6 +15,7 @@ def get_creds():
     ])
     return scoped
 
+
 @logging_info_async
 async def set_value(agcm, r, sheet=environ["SHEET"]):
     agc = await agcm.authorize()
@@ -24,6 +25,7 @@ async def set_value(agcm, r, sheet=environ["SHEET"]):
     cell: Cell = Cell.from_address(r.coords)
     return await zero_ws.update_cell(cell.row, cell.col, r.value)
 
+
 @logging_info_async
 async def get_value(agcm, r, sheet=environ["SHEET"]):
     agc = await agcm.authorize()
@@ -32,8 +34,9 @@ async def get_value(agcm, r, sheet=environ["SHEET"]):
     zero_ws: Worksheet = await ss.get_worksheet(0)
     return await zero_ws.get_values(r.coords)
 
+
 @logging_info_async
-async def put_values(agcm, r:GoogleRequestPutValues, sheet=environ["SHEET"]):
+async def put_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]):
     agc = await agcm.authorize()
     ss = await agc.open_by_key(sheet)
     zero_ws: Worksheet = await ss.get_worksheet(0)
@@ -50,4 +53,6 @@ async def put_values(agcm, r:GoogleRequestPutValues, sheet=environ["SHEET"]):
         'Дата регистрации документа': r.date_registration,
         'ФИО регистратора\n* выбор из списка': r.full_name,
     }
-    return await zero_ws.insert_rows([[comparison.get(cell, "") for cell in table[0]]], len(table)+1)
+    results = [comparison.get(cell, "") for cell in table[0]]
+    await zero_ws.insert_rows([results], len(table) + 1)
+    return results

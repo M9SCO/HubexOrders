@@ -2,8 +2,6 @@ from os import environ
 
 from aiohttp import ClientSession
 
-from modules.core.logger import logging_info_async
-
 
 class HubexApi:
     __slots__ = ("token", "authed_token")
@@ -26,7 +24,6 @@ class HubexApi:
             environ["AUTHED_TOKEN"] = result["access_token"]
             return result
 
-    @logging_info_async
     async def _call_api(self,
                         url: str,
                         method,
@@ -40,7 +37,7 @@ class HubexApi:
         async with ClientSession() as s, s.request(url=url, method=method, json=kwargs, headers=header) as r:
             return await r.json()
 
-    async def get_task(self, task_id: str):
+    async def get_task(self, task_id: int):
         return await self._call_api(
             url=f"{self.__URL__}WORK/tasks/{task_id}",
             method="GET",
