@@ -1,16 +1,19 @@
-from typing import Union
-from fastapi import FastAPI
+from logging import INFO, basicConfig
 
-app = FastAPI()
+from modules.Google.routes.google_routes import api_set_value, api_get_value, api_put_values
+from modules.Hubex.routes.hubex_routes import put_newtask_to_google
+from modules.core.app import app
+
+__all__ = (
+    "api_set_value",
+    "api_get_value",
+    "api_put_values",
+    "put_newtask_to_google"
+)
+
+basicConfig(format='%(levelname)-10s%(message)s  ', level=INFO, )
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
+async def main_message():
+    return {"message": "Hello world!"}

@@ -1,0 +1,15 @@
+POST localhost:752/api/hubex/task_create
+Content-Type: application/json
+
+{
+  "TenantID": 46,
+  "TaskID": 1314,
+  "AssetID": 2692,
+  "TaskConversationID": null,
+  "TenantMemberID": null,
+  "AccountID": null,
+  "UserID": null,
+  "CompanyID": null,
+  "EventID": 3,
+  "TaskStageID": null
+}
