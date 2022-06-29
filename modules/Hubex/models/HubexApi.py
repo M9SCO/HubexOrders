@@ -46,10 +46,8 @@ class HubexApi:
             method="GET",
         )
 
-
     async def authorize(self):
         return await self._call_api(
             url=f"{self.__URL__}AUTHZ/Accounts/authorize",
             method="POST",
         )
-
