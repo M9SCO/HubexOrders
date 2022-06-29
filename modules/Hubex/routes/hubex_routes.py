@@ -10,6 +10,7 @@ from modules.core.app import app
 @app.post("/api/hubex/task_create")
 async def put_newtask_to_google(request: HubexHookCreateTask):
     h = HubexApi()
+    await h._get_access_token()
     task = await h.get_task(request.TaskID)
     return {"result": await put_values(agcm=AsyncioGspreadClientManager(get_creds),
                                        r=get_GoogleLogRegistrationPF(task))}

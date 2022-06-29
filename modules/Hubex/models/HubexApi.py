@@ -8,10 +8,13 @@ class HubexApi:
     __URL__ = "https://api.hubex.ru/fsm/"
 
     def __init__(self,
-                 token=environ["TOKEN"].replace("\"", ""),
-                 access_token=environ.get("AUTHED_TOKEN", "").replace("\"", "")):
+                 token=environ["TOKEN"].replace("\"", "")):
+        """
+        :param token: Get it in Admin Panel
+        :param access_token:  Get it in self._get_access_token()
+        """
+
         self.token = token
-        self.authed_token = access_token
 
     async def _get_access_token(self):
         async with ClientSession() as s, \
@@ -20,7 +23,7 @@ class HubexApi:
                           json={"serviceToken": environ["TOKEN"].replace("\"", "")}
                           ) as r:
             result = await r.json()
-
+            self.authed_token = result["access_token"]
             environ["AUTHED_TOKEN"] = result["access_token"]
             return result
 
@@ -42,3 +45,11 @@ class HubexApi:
             url=f"{self.__URL__}WORK/tasks/{task_id}",
             method="GET",
         )
+
+
+    async def authorize(self):
+        return await self._call_api(
+            url=f"{self.__URL__}AUTHZ/Accounts/authorize",
+            method="POST",
+        )
+
