@@ -13,4 +13,14 @@ async def put_newtask_to_google(request: HubexHookCreateTask):
     await h._get_access_token()
     task = await h.get_task(request.TaskID)
     return {"result": await put_values(agcm=AsyncioGspreadClientManager(get_creds),
-                                       r=get_GoogleLogRegistrationPF(task))}
+                                       r=get_GoogleLogRegistrationPF(task, request.TaskID))}
+
+
+@app.post("/api/hubex/task/{task_id}")
+async def get_task(task_id: int):
+    print(task_id)
+    h = HubexApi()
+    await h._get_access_token()
+    task = await h.get_task(task_id)
+    print(task)
+    return task

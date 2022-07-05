@@ -41,9 +41,11 @@ async def put_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]):
     ss = await agc.open_by_key(sheet)
     zero_ws: Worksheet = await ss.get_worksheet(0)
     table = await zero_ws.get_all_values()
+    await zero_ws.add_rows(1)
     comparison = {
         '№ п/п': len(table),
         'Номер ПФ': r.pf_number,
+        'Номер заявки': r.task_id,
         'Наименование объекта': r.object_name,
         'Технологический номер объекта': r.tech_object_number,
         'Заводской номер объекта': r.factory_object_number,

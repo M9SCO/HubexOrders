@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "TenantID": 46,
-  "TaskID": 1315,
+  "TaskID": 1332,
   "AssetID": 2692,
   "TaskConversationID": null,
   "TenantMemberID": null,
@@ -14,3 +14,7 @@ Content-Type: application/json
   "EventID": 3,
   "TaskStageID": null
 }
+
+###
+
+POST localhost:752/api/hubex/task/1333
