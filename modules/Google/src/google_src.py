@@ -58,3 +58,30 @@ async def put_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]):
     results = [comparison.get(cell, "") for cell in table[0]]
     await zero_ws.insert_rows([results], len(table) + 1)
     return results
+
+
+@logging_info_async
+async def update_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]):
+    agc = await agcm.authorize()
+    ss = await agc.open_by_key(sheet)
+    zero_ws: Worksheet = await ss.get_worksheet(0)
+    table = await zero_ws.get_all_values()
+    task_id_col_numb = table[0].index('Номер заявки')
+    task_id_list = [table[i][task_id_col_numb] for i in range(len(table))]
+    task_row_number = task_id_list.index(str(r.task_id))
+    comparison = {
+        '№ п/п': task_row_number,
+        'Номер ПФ': r.pf_number,
+        'Номер заявки': r.task_id,
+        'Наименование объекта': r.object_name,
+        'Технологический номер объекта': r.tech_object_number,
+        'Заводской номер объекта': r.factory_object_number,
+        'Регистрационный номер объекта': r.registration_object_number,
+        'Расположение объекта': r.location,
+        'Наименование Заказчика\n* выбор из списка': r.customer_name,
+        'Дата регистрации документа': r.date_registration,
+        'ФИО регистратора\n* выбор из списка': r.full_name,
+    }
+    results = [comparison.get(cell, "") for cell in table[0]]
+    await zero_ws.update(f"A{task_row_number + 1}", [results])
+    return results
