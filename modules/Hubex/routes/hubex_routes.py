@@ -40,3 +40,13 @@ async def get_task(task_id: int):
     task = await h.get_task(task_id)
     print(task)
     return task
+
+
+@app.post("/api/hubex/asset_for_task/{task_id}")
+async def get_task(task_id: int):
+    h = HubexApi()
+    await h._get_access_token()
+    task = await h.get_task(task_id)
+    asset = await h.get_asset(task['asset']['id'])
+    print(asset)
+    return asset
