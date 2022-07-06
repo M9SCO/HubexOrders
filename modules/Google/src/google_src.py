@@ -45,6 +45,7 @@ async def put_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]):
     comparison = {
         '№ п/п': len(table),
         'Номер ПФ': r.pf_number,
+        'ERPID': r.erp_id,
         'Номер заявки': r.task_id,
         'Наименование объекта': r.object_name,
         'Технологический номер объекта': r.tech_object_number,
@@ -72,6 +73,7 @@ async def update_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]
     comparison = {
         '№ п/п': task_row_number,
         'Номер ПФ': r.pf_number,
+        'ERPID': r.erp_id,
         'Номер заявки': r.task_id,
         'Наименование объекта': r.object_name,
         'Технологический номер объекта': r.tech_object_number,

@@ -46,6 +46,12 @@ class HubexApi:
             method="GET",
         )
 
+    async def get_asset(self, asset_id: int):
+        return await self._call_api(
+            url=f"{self.__URL__}ES/Assets/{asset_id}",
+            method="GET",
+        )
+
     async def authorize(self):
         return await self._call_api(
             url=f"{self.__URL__}AUTHZ/Accounts/authorize",

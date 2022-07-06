@@ -12,8 +12,9 @@ async def put_newtask_to_google(request: HubexHookCreateTask):
     h = HubexApi()
     await h._get_access_token()
     task = await h.get_task(request.TaskID)
+    asset = await h.get_asset(task['asset']['id'])
     return {"result": await put_values(agcm=AsyncioGspreadClientManager(get_creds),
-                                       r=get_GoogleLogRegistrationPF(task, request.TaskID))}
+                                       r=get_GoogleLogRegistrationPF(task, request.TaskID, asset))}
 
 
 @app.post("/api/hubex/task_update")
@@ -21,8 +22,10 @@ async def update_task_to_google(request: HubexHookCreateTask):
     h = HubexApi()
     await h._get_access_token()
     task = await h.get_task(request.TaskID)
+    asset = await h.get_asset(task['asset']['id'])
     return {"result": await update_values(agcm=AsyncioGspreadClientManager(get_creds),
-                                          r=get_GoogleLogRegistrationPF(task, request.TaskID))}
+                                          r=get_GoogleLogRegistrationPF(task, request.TaskID, asset))}
+
 
 @app.post("/api/hubex/task_delete")
 async def delete_task_to_google(request: HubexHookCreateTask):
