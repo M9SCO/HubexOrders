@@ -1,10 +1,10 @@
-POST localhost:752/api/hubex/task_create
-#POST 77.87.86.242:8001/api/hubex/task_create
+#POST localhost:752/api/hubex/task_create
+POST http://[2a02:2698:542b:21eb:d92c:a1a3:8606:53a0]:752/api/hubex/task_create
 Content-Type: application/json
 
 {
   "TenantID": 46,
-  "TaskID": 1333,
+  "TaskID": 1315,
   "AssetID": 2692,
   "TaskConversationID": null,
   "TenantMemberID": null,
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ###
 
-POST localhost:752/api/hubex/task/1333
+POST http://77.87.86.242:8001/api/hubex/task/1333
 
 ###
 
@@ -38,3 +38,5 @@ Content-Type: application/json
   "EventID": 3,
   "TaskStageID": null
 }
+
+###

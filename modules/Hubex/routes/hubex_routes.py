@@ -24,6 +24,10 @@ async def update_task_to_google(request: HubexHookCreateTask):
     return {"result": await update_values(agcm=AsyncioGspreadClientManager(get_creds),
                                           r=get_GoogleLogRegistrationPF(task, request.TaskID))}
 
+@app.post("/api/hubex/task_delete")
+async def update_task_to_google(request: HubexHookCreateTask):
+    print(request.TaskID)
+
 
 @app.post("/api/hubex/task/{task_id}")
 async def get_task(task_id: int):
