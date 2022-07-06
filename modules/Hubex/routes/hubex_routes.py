@@ -25,7 +25,7 @@ async def update_task_to_google(request: HubexHookCreateTask):
                                           r=get_GoogleLogRegistrationPF(task, request.TaskID))}
 
 @app.post("/api/hubex/task_delete")
-async def update_task_to_google(request: HubexHookCreateTask):
+async def delete_task_to_google(request: HubexHookCreateTask):
     print(request.TaskID)
 
 
