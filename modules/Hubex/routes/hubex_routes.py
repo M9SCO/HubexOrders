@@ -27,11 +27,6 @@ async def update_task_to_google(request: HubexHookCreateTask):
                                           r=get_GoogleLogRegistrationPF(task, request.TaskID, asset))}
 
 
-@app.post("/api/hubex/task_delete")
-async def delete_task_to_google(request: HubexHookCreateTask):
-    print(request.TaskID)
-
-
 @app.post("/api/hubex/task/{task_id}")
 async def get_task(task_id: int):
     print(task_id)
@@ -43,7 +38,7 @@ async def get_task(task_id: int):
 
 
 @app.post("/api/hubex/asset_for_task/{task_id}")
-async def get_task(task_id: int):
+async def get_asset(task_id: int):
     h = HubexApi()
     await h._get_access_token()
     task = await h.get_task(task_id)
