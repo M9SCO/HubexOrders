@@ -38,11 +38,11 @@ class HubexApi:
         }
 
         async with ClientSession() as s, s.request(url=url, method=method, json=kwargs, headers=header) as r:
-            return await r.json()
+            return await r.json(content_type=None)
 
     async def get_task(self, task_id: int):
         return await self._call_api(
-            url=f"{self.__URL__}WORK/tasks/{task_id}",
+            url=f"{self.__URL__}WORK/Tasks/{task_id}",
             method="GET",
         )
 
@@ -56,4 +56,10 @@ class HubexApi:
         return await self._call_api(
             url=f"{self.__URL__}AUTHZ/Accounts/authorize",
             method="POST",
+        )
+
+    async def get_attr(self, asset_id: int):
+        return await self._call_api(
+            url=f"{self.__URL__}ES/Assets/{asset_id}/attributes",
+            method="GET",
         )
