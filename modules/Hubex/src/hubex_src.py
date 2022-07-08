@@ -15,9 +15,9 @@ def full_name(assigned: str):
 
 
 def get_attribute(attributes: str, attr_name: str):
+    value = "б/н"
     if attributes is None:
-        return "б/н"
-    value: str
+        return value
     for attribute in attributes:
         name = attribute.get('attribute', {}).get('name')
         if name == attr_name:
