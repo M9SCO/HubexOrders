@@ -63,3 +63,21 @@ class HubexApi:
             url=f"{self.__URL__}ES/Assets/{asset_id}/attributes",
             method="GET",
         )
+
+    async def get_checklists(self):
+        return await self._call_api(
+            url=f"{self.__URL__}WORK/CheckLists",
+            method="GET",
+        )
+
+    async def get_checklists_task(self, task_id: str):
+        return await self._call_api(
+            url=f"{self.__URL__}WORK/Tasks/{task_id}/checkLists",
+            method="GET",
+        )
+
+    async def get_checklists_activated(self, task_id: str, check_id: str):
+        return await self._call_api(
+            url=f"{self.__URL__}WORK/Tasks/{task_id}/checkLists/{check_id}/results",
+            method="GET",
+        )

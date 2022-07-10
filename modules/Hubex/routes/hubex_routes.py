@@ -47,3 +47,14 @@ async def get_asset(task_id: int):
     asset = await h.get_asset(task['asset']['id'])
     print(asset)
     return asset
+
+
+@app.post("/api/hubex/task/checklists/{task_id}")
+async def get_checks(task_id: int):
+    h = HubexApi()
+    await h._get_access_token()
+    checklists = await h.get_checklists_task(task_id)
+    checklists_keys = checklists.keys()
+    hol = [{d["name"]: d["isChecked"] for d in dict(await h.get_checklists_activated(task_id, key)).values()} for
+           key in checklists_keys]
+    print(hol)

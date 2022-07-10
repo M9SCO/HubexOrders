@@ -44,3 +44,7 @@ Content-Type: application/json
 POST localhost:752/api/hubex/asset_for_task/1318
 
 ###
+
+POST http://localhost:752/api/hubex/task/checklists/1341
+
+###
