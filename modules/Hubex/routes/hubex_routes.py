@@ -20,8 +20,7 @@ async def put_newtask_to_google(request: HubexHookCreateTask):
 
 @app.post("/api/hubex/task_update")
 async def update_task_to_google(request: HubexHookCreateTask):
-    h = HubexApi()
-    await h._get_access_token()
+    h = await HubexApi.create()
     task = await h.get_task(request.TaskID)
     asset = await h.get_asset(task['asset']['id'])
     attributes = await h.get_attr(task['asset']['id'])
@@ -31,30 +30,22 @@ async def update_task_to_google(request: HubexHookCreateTask):
 
 @app.post("/api/hubex/task/{task_id}")
 async def get_task(task_id: int):
-    print(task_id)
-    h = HubexApi()
+    h = await HubexApi.create()
     await h._get_access_token()
-    task = await h.get_task(task_id)
-    print(task)
-    return task
+    return await h.get_task(task_id)
 
 
 @app.post("/api/hubex/asset_for_task/{task_id}")
 async def get_asset(task_id: int):
-    h = HubexApi()
-    await h._get_access_token()
+    h = await HubexApi.create()
     task = await h.get_task(task_id)
-    asset = await h.get_asset(task['asset']['id'])
-    print(asset)
-    return asset
+    return await h.get_asset(task['asset']['id'])
 
 
 @app.post("/api/hubex/task/checklists/{task_id}")
 async def get_checks(task_id: int):
-    h = HubexApi()
-    await h._get_access_token()
+    h = await HubexApi.create()
     checklists = await h.get_checklists_task(task_id)
     checklists_keys = checklists.keys()
-    hol = [{d["name"]: d["isChecked"] for d in dict(await h.get_checklists_activated(task_id, key)).values()} for
-           key in checklists_keys]
-    print(hol)
+    return [{d["name"]: d["isChecked"] for d in dict(await h.get_checklists_activated(task_id, key)).values()} for
+            key in checklists_keys]

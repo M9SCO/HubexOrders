@@ -1,3 +1,4 @@
+from logging import error, info
 from os import environ
 
 from aiohttp import ClientSession
@@ -7,21 +8,22 @@ class HubexApi:
     __slots__ = ("token", "authed_token")
     __URL__ = "https://api.hubex.ru/fsm/"
 
-    def __init__(self,
-                 token=environ["TOKEN"].replace("\"", "")):
+    @classmethod
+    async def create(cls,
+                     token=environ["TOKEN"].replace("\"", "")):
         """
         :param token: Get it in Admin Panel
         :param access_token:  Get it in self._get_access_token()
         """
-
+        self = HubexApi()
         self.token = token
+        await self._get_access_token()
+        return self
 
     async def _get_access_token(self):
-        async with ClientSession() as s, \
-                s.request(url=self.__URL__ + "AUTHZ/AccessTokens",
-                          method="POST",
-                          json={"serviceToken": environ["TOKEN"].replace("\"", "")}
-                          ) as r:
+        async with ClientSession() as s, s.request(url=self.__URL__ + "AUTHZ/AccessTokens",
+                                                   method="POST",
+                                                   json={"serviceToken": environ["TOKEN"].replace("\"", "")}) as r:
             result = await r.json()
             self.authed_token = result["access_token"]
             environ["AUTHED_TOKEN"] = result["access_token"]
@@ -38,6 +40,11 @@ class HubexApi:
         }
 
         async with ClientSession() as s, s.request(url=url, method=method, json=kwargs, headers=header) as r:
+            text = f"{method} {r.status} {url} {kwargs}"
+            if r.status != 200:
+                error(text)
+                raise Exception(await r.text())
+            info(text)
             return await r.json(content_type=None)
 
     async def get_task(self, task_id: int):

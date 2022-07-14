@@ -1,5 +1,4 @@
-POST localhost:752/api/hubex/task_create
-#POST http://77.87.86.242:8001/api/hubex/task_create
+POST {{host}}/api/hubex/task_create
 Content-Type: application/json
 
 {
@@ -17,13 +16,12 @@ Content-Type: application/json
 
 ###
 
-POST http://77.87.86.242:8001/api/hubex/task/1333
+POST {{host}}/api/hubex/task/1341
 
 ###
 
 
-POST localhost:752/api/hubex/task_update
-#POST 77.87.86.242:8001/api/hubex/task_update
+POST {{host}}/api/hubex/task_update
 Content-Type: application/json
 
 {
@@ -41,10 +39,10 @@ Content-Type: application/json
 
 ###
 
-POST localhost:752/api/hubex/asset_for_task/1318
+POST{{host}}/api/hubex/asset_for_task/1318
 
 ###
 
-POST http://localhost:752/api/hubex/task/checklists/1341
+POST {{host}}/api/hubex/task/checklists/1341
 
 ###

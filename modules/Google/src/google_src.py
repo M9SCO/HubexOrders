@@ -1,7 +1,9 @@
+from datetime import datetime
 from os import environ
 
 from google.oauth2.service_account import Credentials
 from gspread import Worksheet, Cell
+from gspread_asyncio import AsyncioGspreadClientManager
 
 from modules.Google.modules.GoogleLogRegistrationPF import GoogleLogRegistrationPF
 from modules.core.logger import logging_info, logging_info_async
@@ -11,7 +13,8 @@ from modules.core.logger import logging_info, logging_info_async
 def get_creds():
     creds = Credentials.from_service_account_file("resources/google/key.json")
     scoped = creds.with_scopes([
-        "https://www.googleapis.com/auth/spreadsheets"
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
     ])
     return scoped
 
@@ -87,3 +90,36 @@ async def update_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]
     results = [comparison.get(cell, "") for cell in table[0]]
     await zero_ws.update(f"A{task_row_number + 1}", [results])
     return results
+
+
+@logging_info_async
+async def put_workready_to_table(agcm: AsyncioGspreadClientManager,
+                                 table_name: str,
+                                 object_name: str,
+                                 work_name: str,
+                                 perpetrator: str) -> None:
+    agc = await agcm.authorize()
+    ss = await agc.open(table_name)
+    zero_ws: Worksheet = await ss.get_worksheet(0)
+    f, s, t, *objects = await zero_ws.get_all_values()
+    started = next((n for n, column in enumerate(t, 1) if column in ("Дата", "Фамилия")))
+    cursor = s[started - 1]
+    works = {}
+    for n, column in enumerate(s[started + 1:], started + 1):
+        if column:
+            cursor = column
+            works[cursor] = {}
+        works[cursor][t[n]] = n + 1
+
+    work = works[work_name]
+    # obj = next(n for n, ob in enumerate((objects[next(n for n, ob in enumerate)]), 1))
+    names_col = next(_ for _, col in enumerate(f) if col == "Наименование")
+    row, name = next(el for el in [(n, name[names_col]) for n, name in enumerate(objects, 4)] if el[1] == object_name)
+    putted_value = [
+        {"range": f"r{row}c{work['Дата']}",
+         "values": [[datetime.now().strftime("%d.%m.%Y")]]},
+        {"range": f"r{row}c{work['Фамилия']}",
+         "values": [[perpetrator]]},
+    ]
+
+    return await zero_ws.batch_update(data=putted_value)

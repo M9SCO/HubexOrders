@@ -7,11 +7,20 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:752/api/google
+GET http://localhost:752/api/google/
 Content-Type: application/json
 
 {
   "coords": "J1:J10"
+}
+
+###
+GET http://localhost:752/api/google/name
+Content-Type: application/json
+
+{
+  "coords": "r1c1",
+  "name": "АО «Волгогаз»"
 }
 
 ###
