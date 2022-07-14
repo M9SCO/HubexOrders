@@ -98,7 +98,8 @@ async def put_workready_to_table(agcm: AsyncioGspreadClientManager,
                                  object_name: str,
                                  title_name: str,
                                  work_name: str,
-                                 perpetrator: str) -> None:
+                                 perpetrator: str,
+                                 status: bool) -> None:
     agc = await agcm.authorize()
     ss = await agc.open(table_name)
     zero_ws: Worksheet = await ss.get_worksheet(0)
@@ -129,9 +130,45 @@ async def put_workready_to_table(agcm: AsyncioGspreadClientManager,
     row, name = next(el for el in [(n, name[names_col]) for n, name in enumerate(objects, 4)] if el[1] == object_name)
     putted_value = [
         {"range": f"r{row}c{work['Дата']}",
-         "values": [[datetime.now().strftime("%d.%m.%Y")]]},
+         "values": [[datetime.now().strftime("%d.%m.%Y") if status else ""]]},
         {"range": f"r{row}c{work['Фамилия']}",
-         "values": [[perpetrator]]},
+         "values": [[perpetrator if status else ""]]},
     ]
 
     return await zero_ws.batch_update(data=putted_value)
+
+
+@logging_info_async
+async def get_works_from_table(agcm: AsyncioGspreadClientManager,
+                               table_name: str,
+                               object_name: str,
+                               title_name: str) -> None:
+    agc = await agcm.authorize()
+    ss = await agc.open(table_name)
+    zero_ws: Worksheet = await ss.get_worksheet(0)
+    f, s, t, *objects = await zero_ws.get_all_values()
+    start_col_num = f.index(f"{title_name}")
+    end_col_num = start_col_num
+    for i in range(start_col_num + 1, len(f)):
+        if len(f[i]) == 0:
+            end_col_num += 1
+        else:
+            break
+    end_col_num += 1
+    start_col_num += 1
+    names_col = next(_ for _, col in enumerate(f) if col == "Наименование")
+    row, name = next(el for el in [(n, name[names_col]) for n, name in enumerate(objects, 4)] if el[1] == object_name)
+    row -= 4
+    cursor = s[start_col_num]
+    works = {}
+    for n, column in enumerate(s[start_col_num - 1:], start_col_num - 1):
+        if n != end_col_num:
+            if column:
+                cursor = column
+            if objects[row][n] != "":
+                works[cursor] = True
+            else:
+                works[cursor] = False
+        else:
+            break
+    return works

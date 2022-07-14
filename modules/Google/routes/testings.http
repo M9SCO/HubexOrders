@@ -41,7 +41,11 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:752/api
+GET http://localhost:752/api/set
+
+###
+
+GET http://localhost:752/api/get
 
 ###
 

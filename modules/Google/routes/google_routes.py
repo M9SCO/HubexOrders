@@ -3,7 +3,8 @@ from gspread_asyncio import AsyncioGspreadClientManager
 from modules.Google.modules.GoogleGetCoords import GoogleGetCoords
 from modules.Google.modules.GoogleLogRegistrationPF import GoogleLogRegistrationPF
 from modules.Google.modules.GoogleSetWithCoords import GoogleSetWithCoords
-from modules.Google.src.google_src import set_value, get_creds, get_value, put_values, put_workready_to_table
+from modules.Google.src.google_src import set_value, get_creds, get_value, put_values, put_workready_to_table, \
+    get_works_from_table
 from modules.core.app import app
 
 
@@ -25,12 +26,22 @@ async def api_put_values(request: GoogleLogRegistrationPF):
     await put_values(agcm=agcm, r=request)
 
 
-@app.get("/api")
+@app.get("/api/set")
 async def set_with():
     agcm: AsyncioGspreadClientManager = AsyncioGspreadClientManager(get_creds)
     return await put_workready_to_table(agcm=agcm,
                                         table_name="АО «Волгогаз»",
-                                        title_name="ЧЕК-ЛИСТ НА ПОДЗЕМНЫЙ ГАЗОПРОВОД",
+                                        title_name="ЧЕК-ЛИСТ НА НАДЗЕМНЫЙ ГАЗОПРОВОД",
                                         object_name="Тестовый газопровод",
-                                        work_name="Проверка эффективности работы ЭХЗ",
-                                        perpetrator="Чернов Г. И.")
+                                        work_name="УЗТ",
+                                        perpetrator="Чернов Г. И.",
+                                        status=False)
+
+
+@app.get("/api/get")
+async def get_with():
+    agcm: AsyncioGspreadClientManager = AsyncioGspreadClientManager(get_creds)
+    return await get_works_from_table(agcm=agcm,
+                                      table_name="АО «Волгогаз»",
+                                      title_name="ЧЕК-ЛИСТ НА НАДЗЕМНЫЙ ГАЗОПРОВОД",
+                                      object_name="Тестовый газопровод")
