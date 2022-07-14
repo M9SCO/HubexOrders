@@ -1,6 +1,6 @@
 from logging import INFO, basicConfig
 
-from save_imports import app
+from modules.core.app import app
 
 basicConfig(format='%(levelname)-10s%(message)s  ', level=INFO, )
 

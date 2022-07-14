@@ -96,21 +96,33 @@ async def update_values(agcm, r: GoogleLogRegistrationPF, sheet=environ["SHEET"]
 async def put_workready_to_table(agcm: AsyncioGspreadClientManager,
                                  table_name: str,
                                  object_name: str,
+                                 title_name: str,
                                  work_name: str,
                                  perpetrator: str) -> None:
     agc = await agcm.authorize()
     ss = await agc.open(table_name)
     zero_ws: Worksheet = await ss.get_worksheet(0)
     f, s, t, *objects = await zero_ws.get_all_values()
-    started = next((n for n, column in enumerate(t, 1) if column in ("Дата", "Фамилия")))
-    cursor = s[started - 1]
+    start_col_num = f.index(f"{title_name}")
+    end_col_num = start_col_num
+    for i in range(start_col_num + 1, len(f)):
+        if len(f[i]) == 0:
+            end_col_num += 1
+        else:
+            break
+    end_col_num += 1
+    start_col_num += 1
+    # started = next((n for n, column in enumerate(t, 1) if column in ("Дата", "Фамилия")))
+    cursor = s[start_col_num]
     works = {}
-    for n, column in enumerate(s[started + 1:], started + 1):
-        if column:
-            cursor = column
-            works[cursor] = {}
-        works[cursor][t[n]] = n + 1
-
+    for n, column in enumerate(s[start_col_num - 1:], start_col_num - 1):
+        if n != end_col_num:
+            if column:
+                cursor = column
+                works[cursor] = {}
+            works[cursor][t[n]] = n + 1
+        else:
+            break
     work = works[work_name]
     # obj = next(n for n, ob in enumerate((objects[next(n for n, ob in enumerate)]), 1))
     names_col = next(_ for _, col in enumerate(f) if col == "Наименование")

@@ -30,7 +30,7 @@ async def set_with():
     agcm: AsyncioGspreadClientManager = AsyncioGspreadClientManager(get_creds)
     return await put_workready_to_table(agcm=agcm,
                                         table_name="АО «Волгогаз»",
-                                        # title_name="ЧЕК-ЛИСТ НА НАДЗЕМНЫЙ ГАЗОПРОВОД",
+                                        title_name="ЧЕК-ЛИСТ НА ПОДЗЕМНЫЙ ГАЗОПРОВОД",
                                         object_name="Тестовый газопровод",
-                                        work_name="ВИК",
+                                        work_name="Проверка эффективности работы ЭХЗ",
                                         perpetrator="Чернов Г. И.")
