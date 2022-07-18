@@ -39,3 +39,14 @@ Content-Type: application/json
   "full_name": "Дортман Е."
 }
 
+###
+
+GET http://localhost:752/api/set
+
+###
+
+GET http://localhost:752/api/get
+
+###
+
+
