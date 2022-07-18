@@ -1,9 +1,9 @@
-POST localhost:752/api/hubex/task_create
+POST {{host}}/api/hubex/task_create
 Content-Type: application/json
 
 {
   "TenantID": 46,
-  "TaskID": 1314,
+  "TaskID": 1341,
   "AssetID": 2692,
   "TaskConversationID": null,
   "TenantMemberID": null,
@@ -13,3 +13,54 @@ Content-Type: application/json
   "EventID": 3,
   "TaskStageID": null
 }
+
+###
+
+POST {{host}}/api/hubex/task/1341
+
+###
+
+
+POST {{host}}/api/hubex/task_update
+Content-Type: application/json
+
+{
+  "TenantID": 46,
+  "TaskID": 1341,
+  "AssetID": 2692,
+  "TaskConversationID": null,
+  "TenantMemberID": null,
+  "AccountID": null,
+  "UserID": null,
+  "CompanyID": null,
+  "EventID": 3,
+  "TaskStageID": null
+}
+
+###
+
+POST{{host}}/api/hubex/asset_for_task/1318
+
+###
+
+POST {{host}}/api/hubex/task/checklists/1341
+
+###
+
+POST {{host}}/api/hubex/checklists_update
+Content-Type: application/json
+
+{
+  "TenantID": 46,
+  "TaskID": 1341,
+  "AssetID": 2692,
+  "TaskConversationID": null,
+  "TenantMemberID": null,
+  "AccountID": null,
+  "UserID": null,
+  "CompanyID": null,
+  "EventID": 3,
+  "TaskStageID": null
+}
+
+###
