@@ -43,7 +43,7 @@ class HubexApi:
             text = f"{method} {r.status} {url} {kwargs}"
             if r.status != 200:
                 error(text)
-                raise Exception(await r.text())
+                return {}
             info(text)
             return await r.json(content_type=None)
 
